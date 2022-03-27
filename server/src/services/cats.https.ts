@@ -13,6 +13,24 @@ class CatsHttpService {
 		return results;
 	}
 
+	async post(path: string, data: any, config: any) {
+		const results = await axios.post(this.getApiPath(path), data, {
+			headers: this.getHeaders(),
+			...config,
+		});
+
+		return results;
+	}
+
+	async delete(path: string, config: any) {
+		const results = await axios.delete(this.getApiPath(path), {
+			headers: this.getHeaders(),
+			...config,
+		});
+
+		return results;
+	}
+
 	private getApiPath(path: string) {
 		return `${BASE_API_URL}${path}`;
 	}

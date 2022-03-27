@@ -21,4 +21,19 @@ const getAllImages = async (
 	}
 };
 
-export default { getAllImages }
+const getImageById = async (
+	req: Request,
+	res: Response,
+	next: NextFunction
+) => {
+	const id = req.params?.id;
+	const result: AxiosResponse = await catsHttpService.get(`images/${id}`, {});
+
+	const data = result.data || [];
+	return res.status(200).json(data);
+};
+
+export default {
+	getAllImages,
+	getImageById,
+};

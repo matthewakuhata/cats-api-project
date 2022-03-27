@@ -25,6 +25,26 @@ const getCatBreeds = async (
 	}
 };
 
+const getPaginatedCatBreeds = async (
+	req: Request,
+	res: Response,
+	next: NextFunction
+) => {
+	const page = req.query?.page || 0;
+	const limit = req.query?.limit || 6;
+	try {
+		const result: AxiosResponse = await catsHttpService.get(
+			`breeds?page=${page}&limit=${limit}`,
+			{}
+		);
+
+		const data = formatBreedData(result.data) || [];
+		return res.status(200).json(data);
+	} catch (err: any) {
+		return res.status(404).json({ message: err.data?.message });
+	}
+};
+
 const formatBreedData = (breeds: any) => {
 	return breeds.map((dataPoint: any) => ({
 		id: dataPoint.id,
@@ -49,4 +69,4 @@ const formatBreedData = (breeds: any) => {
 	}));
 };
 
-export default { getCatBreeds };
+export default { getCatBreeds, getPaginatedCatBreeds };

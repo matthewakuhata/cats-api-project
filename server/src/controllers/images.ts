@@ -8,13 +8,12 @@ const getAllImages = async (
   next: NextFunction
 ) => {
   const limit = req.query.limit || 1;
-  const breed_id = req.query.breed_id;
+  const breedId = req.query.breed_id;
+  const path = breedId === 'random' ? `images/search?limit=${limit}` : `images/search?limit=${limit}&breed_id=${breedId}`;
   try {
-    const result: AxiosResponse = await catsHttpService.get(
-      `images/search?limit=${limit}&breed_id=${breed_id}`,
-      {}
-    );
+    const result: AxiosResponse = await catsHttpService.get( path, {});
     const data = result.data || [];
+
     return res.status(200).json(data);
   } catch (err: any) {
     return res.status(404).json({ message: err.data?.message });

@@ -9,9 +9,12 @@ const getAllImages = async (
 ) => {
   const limit = req.query.limit || 1;
   const breedId = req.query.breed_id;
-  const path = breedId === 'random' ? `images/search?limit=${limit}` : `images/search?limit=${limit}&breed_id=${breedId}`;
+  const path =
+    breedId === "random"
+      ? `images/search?limit=${limit}`
+      : `images/search?limit=${limit}&breed_id=${breedId}`;
   try {
-    const result: AxiosResponse = await catsHttpService.get( path, {});
+    const result: AxiosResponse = await catsHttpService.get(path, {});
     const data = result.data || [];
 
     return res.status(200).json(data);
